@@ -1,4 +1,4 @@
-import React, {Component}from 'react';
+import React, {useState, useEffect } from 'react';
 import axios from 'axios'
 import {Card, Navbar} from 'react-bootstrap'
 
@@ -28,40 +28,32 @@ const Event = props => (
         </Card>
 )
 
-export default class EventsList extends Component {
-    constructor(props){
-        super(props)
-        this.state = {events: []}
-    }
+function EventsList() {
+    const [events, setEvents] = useState([])
 
-    componentDidMount(){
-        console.log('hello')
-        axios.get('http://localhost:5001/')
-        .then(res => {
-            this.setState({events: res.data})
-            console.log(this.state)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
-    eventList() {
-        return this.state.events
+    useEffect(() => {
+        (async () => {
+        const res = await axios.get('http://localhost:5001/')
+            setEvents(res.data)
+        }) ();
+    },[])
+    const eventList = () => {
+        return events
         .map(currentevent => {
             return <Event event={currentevent} 
             key={currentevent.id}/>
         })
     }
-    render(){
         return (
             <div>
                 <Navbar className="bg-light expand-lg">
                 <Navbar.Brand>Events Finder in Helsinki</Navbar.Brand>
                 </Navbar>
-                <div class='card-columns'>
-                    {this.eventList()}
+                <div className='card-columns'>
+                    {eventList()}
                     </div>
             </div>
         )
     }
-}
+
+    export default EventsList;
