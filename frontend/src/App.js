@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import EventList from './components/event'
+import EventList from './components/Events'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Navbar} from "react-bootstrap";
 
-function App() {
+const App = () => {
 
-  return (
-    <div>
+    return (
+    <React.Fragment>
       <EventList/>
-    </div>
+    </React.Fragment>
   );
 }
 
